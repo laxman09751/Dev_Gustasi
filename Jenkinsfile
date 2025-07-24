@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk 'JDK 11'
-        maven 'Maven 3.8.1'
+        jdk 'JDK 11'            // Must match your Jenkins JDK installation name
+        maven 'maven 3.9.11'    // ✅ Must exactly match what's in Jenkins > Global Tool Config
     }
 
     stages {
@@ -34,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo "Build Successful"
+            echo "✅ Build Successful"
         }
         failure {
-            echo "Build Failed"
+            echo "❌ Build Failed"
         }
     }
 }

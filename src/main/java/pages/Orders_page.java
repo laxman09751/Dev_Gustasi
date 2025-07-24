@@ -113,6 +113,15 @@ public class Orders_page {
 	@FindBy(tagName="body")
 	public WebElement body_1;
 	
+	@FindBy(xpath="(//button[contains(@class,'btn dine-type')])[1]")
+	public WebElement room;
+	@FindBy(xpath="(//button[contains(@class,'btn dine-btn')])[1]")
+	public WebElement _101;
+	@FindBy(xpath="//button[text()='Create Order']")
+	public WebElement Create_Order;
+	@FindBy(xpath="//button[contains(@class,'btn btn-danger')]")
+	public WebElement Bill_Paylater;
+	
 	WebDriver driver;
 
 	
@@ -170,6 +179,14 @@ public class Orders_page {
 	}
 	public void live_orders() {
 		liveordersbutton.click();
+	}
+	public void airtelcash() {
+		BillAirtel.click();
+		
+	}
+	public void paylater() {
+		Bill_Paylater.click();
+		
 	}
 	public void enter_discount() throws InterruptedException {
 		discount.clear();
@@ -309,6 +326,12 @@ public class Orders_page {
 		actions.moveToElement(subMenu).click().build().perform();
 		WebElement body = driver.findElement(By.tagName("body"));
 		actions.moveToElement(body).build().perform();
+	}
+	public void room_101_createorder() {
+		room.click();
+		_101.click();
+		Create_Order.click();
+		
 	}
 
 }

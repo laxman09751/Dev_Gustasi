@@ -2,43 +2,42 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.1'   // Use the exact name from your Jenkins tool config
-        jdk 'JDK 11'          // Replace with the JDK version you configured
-    }
-
-    environment {
-        REPORT_DIR = "target/surefire-reports"
+        jdk 'JDK 11'            // Must match your Jenkins JDK installation name
+        maven 'maven 3.9.11'    // ✅ Must exactly match what's in Jenkins > Global Tool Config
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/laxman09751/Dev_Gustasi.git'
+                git url: 'https://github.com/laxman09751/Dev_Gustasi.git', branch: 'main'
             }
         }
 
-        stage('Build and Run Tests') {
+        stage('Build and Test') {
             steps {
                 sh 'mvn clean test'
             }
         }
 
-        stage('Publish Test Reports') {
+        stage('Archive Reports') {
             steps {
-                junit "${REPORT_DIR}/*.xml"
+                junit 'target/surefire-reports/*.xml'
+            }
+        }
+
+        stage('Allure Report') {
+            steps {
+                allure includeProperties: false, results: [[path: 'target/allure-results']]
             }
         }
     }
 
     post {
         success {
-            echo '✅ Build and tests succeeded.'
+            echo "✅ Build Successful"
         }
         failure {
-            echo '❌ Build or tests failed. Please check the logs.'
-        }
-        always {
-            echo '📦 Pipeline execution completed.'
+            echo "❌ Build Failed"
         }
     }
 }
